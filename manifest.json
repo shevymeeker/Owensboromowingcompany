@@ -1,0 +1,10 @@
+{
+  "name": "GreenTask Pro",
+  "short_name": "GreenTask",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0a4d3c",
+  "theme_color": "#0a4d3c",
+  "description": "Offline-first CRM, schedule, and invoicing toolkit for lawn care professionals.",
+  "icons": []
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a4d3c" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>GreenTask Pro</title>
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>GreenTask Pro</h1>
+      <p class="tagline">Mobile-first CRM for lawn and grounds care pros</p>
+    </header>
+
+    <main class="app-shell">
+      <nav class="dashboard" id="dashboard">
+        <button class="dashboard-card" data-target="clients-section">
+          <span class="card-title">Clients</span>
+          <span class="card-subtitle">Manage contacts &amp; service notes</span>
+        </button>
+        <button class="dashboard-card" data-target="calendar-section">
+          <span class="card-title">Calendar</span>
+          <span class="card-subtitle">Drag-free weekly planning</span>
+        </button>
+        <button class="dashboard-card" data-target="notes-section">
+          <span class="card-title">Notes</span>
+          <span class="card-subtitle">Capture jobs, media, reminders</span>
+        </button>
+        <button class="dashboard-card" data-target="invoicing-section">
+          <span class="card-title">Invoicing</span>
+          <span class="card-subtitle">Professional invoices in seconds</span>
+        </button>
+      </nav>
+
+      <nav class="panel-nav" id="panel-nav" hidden aria-label="Section navigation">
+        <button type="button" class="panel-nav__button" data-target="dashboard-home">Dashboard</button>
+        <button type="button" class="panel-nav__button" data-target="clients-section">Clients</button>
+        <button type="button" class="panel-nav__button" data-target="calendar-section">Calendar</button>
+        <button type="button" class="panel-nav__button" data-target="notes-section">Notes</button>
+        <button type="button" class="panel-nav__button" data-target="invoicing-section">Invoicing</button>
+      </nav>
+
+      <section class="panel" id="clients-section" hidden>
+        <header class="panel-header">
+          <h2>Clients</h2>
+          <p>Keep track of client details and quick notes.</p>
+        </header>
+        <form id="client-form" class="card">
+          <div class="form-grid">
+            <label>
+              Name
+              <input type="text" id="client-name" required />
+            </label>
+            <label>
+              Address
+              <input type="text" id="client-address" required />
+            </label>
+            <label>
+              Phone
+              <input type="tel" id="client-phone" pattern="[0-9()+\- ]{7,}" required />
+            </label>
+            <label>
+              Email
+              <input type="email" id="client-email" />
+            </label>
+            <label class="full">
+              Notes
+              <textarea id="client-notes" rows="2"></textarea>
+            </label>
+          </div>
+          <button type="submit" class="primary">Save Client</button>
+        </form>
+
+        <div id="clients-list" class="card stack" aria-live="polite"></div>
+      </section>
+
+      <section class="panel" id="calendar-section" hidden>
+        <header class="panel-header">
+          <h2>Weekly Calendar</h2>
+          <p>Assign clients to time slots across your 7-day week.</p>
+        </header>
+        <form id="schedule-form" class="card">
+          <div class="form-grid">
+            <label>
+              Client
+              <select id="schedule-client" required></select>
+            </label>
+            <label>
+              Day
+              <select id="schedule-day" required></select>
+            </label>
+            <label>
+              Start Time
+              <input type="time" id="schedule-time" required />
+            </label>
+            <label>
+              Duration (hours)
+              <input type="number" step="0.25" min="0.25" value="1" id="schedule-duration" required />
+            </label>
+            <label class="full">
+              Work Summary
+              <textarea id="schedule-summary" rows="2" placeholder="Mowing, leaf cleanup, etc." required></textarea>
+            </label>
+          </div>
+          <button type="submit" class="primary">Add to Calendar</button>
+        </form>
+
+        <div class="calendar-grid" id="calendar-grid"></div>
+      </section>
+
+      <section class="panel" id="notes-section" hidden>
+        <header class="panel-header">
+          <h2>Notes</h2>
+          <p>Capture project ideas, weather reminders, and job site media.</p>
+        </header>
+        <form id="note-form" class="card" enctype="multipart/form-data">
+          <div class="form-grid">
+            <label>
+              Title
+              <input type="text" id="note-title" required />
+            </label>
+            <label class="full">
+              Details
+              <textarea id="note-body" rows="3" required></textarea>
+            </label>
+            <label class="full">
+              Attach photo or short video (optional)
+              <input type="file" id="note-file" accept="image/*,video/*" capture="environment" />
+            </label>
+          </div>
+          <button type="submit" class="primary">Save Note</button>
+        </form>
+        <div id="notes-list" class="card stack" aria-live="polite"></div>
+      </section>
+
+      <section class="panel" id="invoicing-section" hidden>
+        <header class="panel-header">
+          <h2>Invoicing</h2>
+          <p>Generate a polished invoice and deliver via print or text.</p>
+        </header>
+        <form id="invoice-form" class="card">
+          <div class="form-grid">
+            <label>
+              Client
+              <select id="invoice-client" required></select>
+            </label>
+            <label>
+              Invoice #
+              <input type="text" id="invoice-number" placeholder="Auto" />
+            </label>
+            <label>
+              Issue Date
+              <input type="date" id="invoice-date" required />
+            </label>
+            <label>
+              Sales Tax %
+              <input type="number" id="invoice-tax" min="0" step="0.1" value="6" required />
+            </label>
+            <label class="full">
+              Notes to Client
+              <textarea id="invoice-notes" rows="2" placeholder="Thank you for your business!"></textarea>
+            </label>
+          </div>
+
+          <div class="line-items">
+            <h3>Line Items</h3>
+            <div id="line-items-container" class="stack"></div>
+            <button type="button" id="add-line-item" class="secondary">Add Service</button>
+          </div>
+
+          <div class="discounts">
+            <label><input type="checkbox" id="discount-senior" /> Apply senior discount (10% after tax)</label>
+            <label><input type="checkbox" id="discount-veteran" /> Apply veteran labor discount (15% labor only)</label>
+          </div>
+
+          <div class="totals" id="invoice-totals"></div>
+
+          <div class="actions">
+            <button type="submit" class="primary">Save Invoice</button>
+            <button type="button" id="print-invoice" class="secondary">Print / Save PDF</button>
+            <button type="button" id="sms-invoice" class="secondary">Send via Text</button>
+          </div>
+        </form>
+
+        <div id="invoice-history" class="card stack" aria-live="polite"></div>
+
+        <section id="invoice-preview" class="invoice-preview" hidden>
+          <div class="invoice-header">
+            <div>
+              <h3>Owensboro Mowing Co.</h3>
+              <p>Owensboro, KY • (555) 555-0101</p>
+              <p>service@owensboromowing.com</p>
+            </div>
+            <div>
+              <p><strong>Invoice #:</strong> <span data-field="number"></span></p>
+              <p><strong>Date:</strong> <span data-field="date"></span></p>
+            </div>
+          </div>
+          <div class="invoice-client">
+            <p><strong>Billed To:</strong></p>
+            <p><span data-field="client-name"></span></p>
+            <p><span data-field="client-address"></span></p>
+            <p><span data-field="client-phone"></span></p>
+            <p><span data-field="client-email"></span></p>
+          </div>
+          <table class="invoice-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Type</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody data-field="items"></tbody>
+          </table>
+          <div class="invoice-summary" data-field="summary"></div>
+          <p class="invoice-notes"><strong>Notes:</strong> <span data-field="notes"></span></p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Data is stored on this device for offline access. Remember to back up periodically.</p>
+    </footer>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
