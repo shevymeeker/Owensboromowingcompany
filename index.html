@@ -3,28 +3,132 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Estimator • Offline First</title>
+  <meta name="theme-color" content="#2A9D8F" />
+  <meta name="description" content="Professional invoice and estimate manager with offline support" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="OMC Invoice" />
+  <title>OMC Invoice Manager • Offline First</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/png" href="/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    html, body { height: 100%; background: #1f2937; color: #e5e7eb; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
-    .panel { background: #111827; border: 1px solid #374151; border-radius: 14px; }
-    .field { background:#111827; border:1px solid #374151; border-radius:8px; padding:.55rem .7rem; width:100%; color:#e5e7eb; }
-    .muted { color:#9ca3af }
-    .toolbar { background:#0b1220; border-top:1px solid #243042 }
-    .tab-btn { padding:.6rem 1rem; border-radius:.6rem; border:1px solid #374151; background:#0f172a; color:#cbd5e1 }
-    .tab-btn.active { background:#1d4ed8; border-color:#1d4ed8; color:white }
-    .gridish { display:grid; grid-template-columns: repeat(12, 1fr); gap: .75rem }
-    .btn { background:#2563eb; color:white; padding:.55rem .9rem; border-radius:.6rem }
-    .btn.outline { background:transparent; border:1px solid #374151; color:#e5e7eb }
-    .btn.red { background:#dc2626 }
-    .list { border:1px solid #374151; border-radius:.8rem; overflow:hidden }
-    .list thead th, .list td { border-bottom:1px solid #374151; padding:.55rem .6rem }
-    .pill { border:1px solid #374151; background:#0b1020; border-radius:999px; padding:.2rem .6rem; font-size:.75rem }
-    @media print { body { background:white; color:black } .no-print { display:none !important } }
+    /* Neutral color scheme: greys, greens, orange highlights */
+    html, body {
+      height: 100%;
+      background: #f5f5f5; /* Light grey background */
+      color: #2d2d2d; /* Dark grey/black text */
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+    .panel {
+      background: #ffffff; /* White panels */
+      border: 1px solid #d4d4d4; /* Medium grey border */
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Subtle shadow */
+    }
+    .field {
+      background:#ffffff;
+      border:1px solid #c4c4c4;
+      border-radius:8px;
+      padding:.55rem .7rem;
+      width:100%;
+      color:#2d2d2d;
+    }
+    .field:focus {
+      outline: none;
+      border-color: #2A9D8F; /* Green focus */
+    }
+    .muted { color:#737373; /* Medium grey for muted text */ }
+    .toolbar { background:#e8e8e8; border-top:1px solid #d4d4d4; }
+    .tab-btn {
+      padding:.6rem 1rem;
+      border-radius:.6rem;
+      border:1px solid #c4c4c4;
+      background:#ffffff;
+      color:#2d2d2d;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      background:#f9f9f9;
+      border-color:#2A9D8F;
+    }
+    .tab-btn.active {
+      background:#2A9D8F; /* Green active state */
+      border-color:#2A9D8F;
+      color:white;
+    }
+    .gridish { display:grid; grid-template-columns: repeat(12, 1fr); gap: .75rem; }
+    .btn {
+      background:#2A9D8F; /* Primary green */
+      color:white;
+      padding:.55rem .9rem;
+      border-radius:.6rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background:#238b7e; /* Darker green on hover */
+    }
+    .btn.outline {
+      background:transparent;
+      border:1px solid #c4c4c4;
+      color:#2d2d2d;
+    }
+    .btn.outline:hover {
+      background:#f9f9f9;
+      border-color:#2A9D8F;
+    }
+    .btn.red {
+      background:#e74c3c; /* Softer red */
+    }
+    .btn.red:hover {
+      background:#c0392b;
+    }
+    .btn.orange {
+      background:#F4A261; /* Orange highlight */
+      color: white;
+    }
+    .btn.orange:hover {
+      background:#e8935a;
+    }
+    .list {
+      border:1px solid #d4d4d4;
+      border-radius:.8rem;
+      overflow:hidden;
+      background: white;
+    }
+    .list thead th {
+      background: #e8e8e8;
+      border-bottom:1px solid #d4d4d4;
+      padding:.55rem .6rem;
+      font-weight: 600;
+      color: #2d2d2d;
+    }
+    .list td {
+      border-bottom:1px solid #efefef;
+      padding:.55rem .6rem;
+    }
+    .list tbody tr:hover {
+      background: #fafafa;
+    }
+    .pill {
+      border:1px solid #c4c4c4;
+      background:#f5f5f5;
+      border-radius:999px;
+      padding:.2rem .6rem;
+      font-size:.75rem;
+      color: #555;
+    }
+    @media print {
+      body { background:white; color:black; }
+      .no-print { display:none !important; }
+    }
   </style>
 </head>
 <body class="min-h-screen">
@@ -97,7 +201,7 @@
       <div class="mt-4">
         <h4 class="font-semibold mb-2">Customer list</h4>
         <table class="w-full list text-sm" id="customersTable">
-          <thead class="bg-slate-800"><tr><th>Name</th><th>Contact</th><th>City</th><th class="text-right">Select</th></tr></thead>
+          <thead><tr><th>Name</th><th>Contact</th><th>City</th><th class="text-right">Select</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -116,12 +220,13 @@
         <div class="col-span-12 md:col-span-4 flex gap-2 justify-end no-print">
           <button class="btn" onclick="generatePDF('estimate')">Print estimate</button>
           <button class="btn" onclick="generatePDF('invoice')">Print invoice</button>
+          <button class="btn orange" onclick="sharePDF('invoice')">Share invoice</button>
         </div>
       </div>
 
       <div class="overflow-x-auto">
         <table class="w-full list text-sm" id="itemsTable">
-          <thead class="bg-slate-800">
+          <thead>
             <tr>
               <th>Type</th><th>Code/Desc</th><th class="text-right">Qty/Hrs</th><th class="text-right">Unit price</th><th class="text-right">Total</th><th class="text-right no-print">Actions</th>
             </tr>
@@ -131,7 +236,7 @@
             <tr><td colspan="4" class="text-right">Subtotal</td><td id="t_sub" class="text-right font-semibold">$0.00</td><td></td></tr>
             <tr><td colspan="4" class="text-right">Markup (<span id="t_markup_rate">0</span>%)</td><td id="t_markup" class="text-right">$0.00</td><td></td></tr>
             <tr><td colspan="4" class="text-right">Tax (<span id="t_tax_rate">0</span>%)</td><td id="t_tax" class="text-right">$0.00</td><td></td></tr>
-            <tr class="bg-slate-800"><td colspan="4" class="text-right font-bold">Grand total</td><td id="t_total" class="text-right font-bold">$0.00</td><td></td></tr>
+            <tr style="background:#e8e8e8; font-weight:bold;"><td colspan="4" class="text-right font-bold">Grand total</td><td id="t_total" class="text-right font-bold">$0.00</td><td></td></tr>
           </tfoot>
         </table>
       </div>
@@ -178,7 +283,7 @@
         <div class="col-span-6 md:col-span-2"><button class="btn w-full" onclick="addPart()">Add</button></div>
       </div>
       <table class="w-full list text-sm mt-3" id="partsTable">
-        <thead class="bg-slate-800"><tr><th>Code</th><th>Desc</th><th class="text-right">Price</th><th class="text-right no-print">Add to estimate</th></tr></thead>
+        <thead><tr><th>Code</th><th>Desc</th><th class="text-right">Price</th><th class="text-right no-print">Add to estimate</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
@@ -191,7 +296,7 @@
         <div class="col-span-6 md:col-span-2"><button class="btn w-full" onclick="addRate()">Add</button></div>
       </div>
       <table class="w-full list text-sm mt-3" id="laborTable">
-        <thead class="bg-slate-800"><tr><th>Desc</th><th class="text-right">$/hr</th><th class="text-right no-print">Add to estimate</th></tr></thead>
+        <thead><tr><th>Desc</th><th class="text-right">$/hr</th><th class="text-right no-print">Add to estimate</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
@@ -703,9 +808,9 @@
       box.innerHTML = `
         <div class="font-semibold mb-2">Master estimate totals (auto-updating)</div>
         <div class="overflow-x-auto"><table class="w-full list text-sm">
-          <thead class="bg-slate-800"><tr><th>Phase</th><th class="text-right">Subtotal</th><th class="text-right">Markup</th><th class="text-right">Tax</th><th class="text-right">Total</th></tr></thead>
+          <thead><tr><th>Phase</th><th class="text-right">Subtotal</th><th class="text-right">Markup</th><th class="text-right">Tax</th><th class="text-right">Total</th></tr></thead>
           <tbody>${rows||'<tr><td colspan="5" class="text-center p-2">No items</td></tr>'}</tbody>
-          <tfoot><tr class="bg-slate-800"><td class="font-bold">Grand total</td><td class="text-right">${fmt(totals.global.sub)}</td><td class="text-right">${fmt(totals.global.markup)}</td><td class="text-right">${fmt(totals.global.tax)}</td><td class="text-right font-bold">${fmt(totals.global.total)}</td></tr></tfoot>
+          <tfoot><tr style="background:#e8e8e8; font-weight:bold;"><td class="font-bold">Grand total</td><td class="text-right">${fmt(totals.global.sub)}</td><td class="text-right">${fmt(totals.global.markup)}</td><td class="text-right">${fmt(totals.global.tax)}</td><td class="text-right font-bold">${fmt(totals.global.total)}</td></tr></tfoot>
         </table></div>`;
 
       // Refresh phase bar to reflect active state
@@ -993,6 +1098,149 @@
       const opt = { margin: 0, filename: `${kind}-${Date.now()}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
       html2pdf().from(area).set(opt).save();
     }
+
+    // ===== SHARE PDF VIA WEB SHARE API (SMS, Email, etc.) =====
+    async function sharePDF(kind){
+      ensurePhases(); ensurePhotos();
+      const byPhase = {};
+      state.estimate.items.forEach(i=>{ const ph=i.phase||'Unassigned'; (byPhase[ph]=byPhase[ph]||[]).push(i); });
+      const totals = computeTotals();
+      const c = state.customers.find(x=>x.id===state.estimate.customerId) || {};
+      const area = document.getElementById('print-area');
+      const sections = Object.keys(byPhase).sort().map(ph=>{
+        const list = byPhase[ph].map(i=>`<li>${escapeHtml(i.desc||i.code||'')}</li>`).join('');
+        const photos = (state.estimate.photos[ph]||[]).map(p=>`<img src="${p.img}" style="width:1.9in;height:1.4in;object-fit:cover;border:1px solid #e5e7eb;border-radius:6px;margin:4px"/>`).join('');
+        const t = totals.phases[ph];
+        return `<div style="margin-top:14px">
+          <div style="font-weight:700; font-size:15px; margin:6px 0">${escapeHtml(ph)} — ${fmt(t.total)}</div>
+          <ul style="margin:0 0 6px 18px; padding:0; font-size:12px">${list||'<li>No items</li>'}</ul>
+          ${photos?`<div style="display:flex; flex-wrap:wrap">${photos}</div>`:''}
+        </div>`;
+      }).join('');
+
+      area.innerHTML = `
+        <div style="font-family:Inter,Arial; width:8.5in; padding:0.6in; color:#111">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px">
+            <div>
+              <div style="font-size:22px; font-weight:700">${escapeHtml(state.company.name||'Company')}</div>
+              <div style="font-size:12px">${esc(state.company.addr1)} ${esc(state.company.addr2)} ${esc(state.company.city)} ${esc(state.company.state)} ${esc(state.company.zip)}</div>
+              <div style="font-size:12px">${esc(state.company.phone)} ${esc(state.company.email)}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:26px; font-weight:800">${kind==='invoice'?'INVOICE':'ESTIMATE'}</div>
+              <div>${new Date().toLocaleDateString()}</div>
+            </div>
+          </div>
+          <hr/>
+          <div style="display:flex; gap:30px; margin:14px 0">
+            <div style="flex:1">
+              <div style="font-weight:700">Bill to</div>
+              <div>${esc(c.name)}</div>
+              <div>${esc(c.addr1)} ${esc(c.addr2)}</div>
+              <div>${esc(c.city)} ${esc(c.state)} ${esc(c.zip)}</div>
+              <div>${esc(c.phone)} ${esc(c.email)}</div>
+            </div>
+            <div style="flex:1; text-align:right; font-size:14px">
+              <div><strong>Project</strong>: ${escapeHtml(state.estimate.name||'')}</div>
+            </div>
+          </div>
+          ${sections}
+          <div style="margin-top:16px; font-size:16px; font-weight:800; text-align:right">Grand total: ${fmt(totals.global.total)}</div>
+          ${state.company.terms ? `<div style=\"margin-top:18px; font-size:12px\"><strong>Terms</strong><br>${escapeHtml(state.company.terms)}</div>`:''}
+        </div>`;
+
+      try {
+        // Generate PDF as blob
+        const opt = {
+          margin: 0,
+          filename: `${kind}-${c.name||'client'}-${Date.now()}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        const pdfBlob = await html2pdf().from(area).set(opt).outputPdf('blob');
+        const fileName = `${kind}-${c.name||'client'}-${Date.now()}.pdf`;
+        const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+
+        // Check if Web Share API is supported
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: `${kind.charAt(0).toUpperCase() + kind.slice(1)} for ${c.name||'Client'}`,
+            text: `${kind.charAt(0).toUpperCase() + kind.slice(1)} from ${state.company.name||'Owensboro Mowing Company'}`,
+            files: [file]
+          });
+          console.log('PDF shared successfully');
+        } else {
+          // Fallback: Just download the PDF
+          alert('Sharing not supported on this device. The PDF will be downloaded instead.');
+          html2pdf().from(area).set(opt).save();
+        }
+      } catch (error) {
+        console.error('Error sharing PDF:', error);
+        alert('Error sharing PDF. The file will be downloaded instead.');
+        const opt = { margin: 0, filename: `${kind}-${Date.now()}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+        html2pdf().from(area).set(opt).save();
+      }
+    }
+
+    // ===== REGISTER SERVICE WORKER FOR PWA =====
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('Service Worker registered successfully:', registration.scope);
+          })
+          .catch((error) => {
+            console.log('Service Worker registration failed:', error);
+          });
+      });
+    }
+
+    // ===== PWA INSTALL PROMPT =====
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      showInstallPrompt();
+    });
+
+    function showInstallPrompt() {
+      // Create install banner if not already exists
+      if (document.getElementById('install-banner')) return;
+
+      const banner = document.createElement('div');
+      banner.id = 'install-banner';
+      banner.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#2A9D8F; color:white; padding:15px 25px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:9999; display:flex; gap:15px; align-items:center; max-width:90%; animation:slideUp 0.3s ease;';
+      banner.innerHTML = `
+        <span style="flex:1;">Install this app for offline access!</span>
+        <button onclick="installPWA()" style="background:white; color:#2A9D8F; border:none; padding:8px 16px; border-radius:6px; font-weight:600; cursor:pointer;">Install</button>
+        <button onclick="dismissInstallPrompt()" style="background:transparent; color:white; border:1px solid white; padding:8px 16px; border-radius:6px; cursor:pointer;">Later</button>
+      `;
+      document.body.appendChild(banner);
+    }
+
+    function installPWA() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        }
+        deferredPrompt = null;
+        dismissInstallPrompt();
+      });
+    }
+
+    function dismissInstallPrompt() {
+      const banner = document.getElementById('install-banner');
+      if (banner) banner.remove();
+    }
+
+    window.addEventListener('appinstalled', () => {
+      console.log('PWA was installed');
+      dismissInstallPrompt();
+    });
 
   </script>
 </body>
