@@ -1,9 +1,9 @@
 // Service Worker for Offline-First PWA
 const CACHE_NAME = 'omc-invoice-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
+  './',
+  './index.html',
+  './manifest.json',
   'https://cdn.tailwindcss.com',
   'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
@@ -56,7 +56,7 @@ self.addEventListener('fetch', (event) => {
       })
       .catch(() => {
         // Network failed, serve offline page if needed
-        return caches.match('/index.html');
+        return caches.match('./index.html');
       })
   );
 });
